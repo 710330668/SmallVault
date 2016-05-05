@@ -1,4 +1,5 @@
 package com.example.administrator.smallvault.db;
+
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -16,13 +17,13 @@ public class PayContentProvider extends ContentProvider {
     private static final int MATCH_FIRST = 1;
     private static final int MATCH_SECOND = 2;
     public static final String AUTHORITY = "com.example.administrator.smallvault.db.PayContentProvider";
-    public static final Uri CONTENT_URI_FIRST = Uri.parse("content://" + AUTHORITY + "/frist");
-    public static final Uri CONTENT_URI_SECOND = Uri.parse("content://" + AUTHORITY + "/second");
+    public static final Uri CONTENT_URI_ZHICHU = Uri.parse("content://" + AUTHORITY + "/zhichu");
+    public static final Uri CONTENT_URI_SHOURU = Uri.parse("content://" + AUTHORITY + "/shouru");
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        sUriMatcher.addURI(AUTHORITY, "first", MATCH_FIRST);
-        sUriMatcher.addURI(AUTHORITY, "second", MATCH_SECOND);
+        sUriMatcher.addURI(AUTHORITY, "zhichu", MATCH_FIRST);
+        sUriMatcher.addURI(AUTHORITY, "shouru", MATCH_SECOND);
     }
 
     private DatabaseHelper mDbHelper;
@@ -78,7 +79,7 @@ public class PayContentProvider extends ContentProvider {
             case MATCH_FIRST: {
                 long rowID = db.insert(DatabaseHelper.TABLE_FIRST_NAME, null, values);
                 if (rowID > 0) {
-                    Uri retUri = ContentUris.withAppendedId(CONTENT_URI_FIRST, rowID);
+                    Uri retUri = ContentUris.withAppendedId(CONTENT_URI_ZHICHU, rowID);
                     return retUri;
                 }
             }
@@ -86,7 +87,7 @@ public class PayContentProvider extends ContentProvider {
             case MATCH_SECOND: {
                 long rowID = db.insert(DatabaseHelper.TABLE_SECOND_NAME, null, values);
                 if (rowID > 0) {
-                    Uri retUri = ContentUris.withAppendedId(CONTENT_URI_SECOND, rowID);
+                    Uri retUri = ContentUris.withAppendedId(CONTENT_URI_SHOURU, rowID);
                     return retUri;
                 }
             }

@@ -17,9 +17,12 @@
         </activity>
 
         <provider
-            android:authorities="com.example.administrator.smallvault.db.PayContentProvider"
             android:name=".db.PayContentProvider"
+            android:authorities="com.example.administrator.smallvault.db.PayContentProvider"
             android:exported="true"/>
+
+        <activity android:name=".ui.PieActivity">
+        </activity>
     </application>
 
 </manifest>
