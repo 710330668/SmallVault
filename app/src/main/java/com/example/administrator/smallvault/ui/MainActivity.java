@@ -7,7 +7,7 @@ import com.example.administrator.smallvault.ui.ui.IndicatorFragmentActivity;
 
 import java.util.List;
 
-
+//我
 public class MainActivity extends IndicatorFragmentActivity {
 
     public static final int FRAGMENT_ONE = 0;
