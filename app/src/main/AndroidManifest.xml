@@ -15,6 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <provider
+            android:authorities="com.example.administrator.smallvault.db.PayContentProvider"
+            android:name=".db.PayContentProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>
