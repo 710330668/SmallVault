@@ -6,19 +6,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.administrator.smallvault.R;
-import com.github.mikephil.charting.charts.BarChart;
+import com.example.administrator.smallvault.ui.view.XCArcMenuView;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
  * 跟踪fragment
  */
 public class FragmentOne extends Fragment {
-    @Bind(R.id.barChart)
-    BarChart barChart;
     private View mView;
     private MainActivity mActivity;
 
@@ -32,7 +30,34 @@ public class FragmentOne extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_one, container, false);
-        ButterKnife.bind(this, mView);
+        XCArcMenuView view = (XCArcMenuView) mView.findViewById(R.id.arcmenu2);
+        view.setOnMenuItemClickListener(new XCArcMenuView.OnMenuItemClickListener() {
+
+            @Override
+            public void onClick(View view, int pos) {
+                // TODO Auto-generated method stub
+                String tag = (String) view.getTag();
+                switch (tag){
+                    case "电影":
+                        Toast.makeText(mActivity, tag, Toast.LENGTH_SHORT).show();
+                        //弹出输入框 记录支出多少
+                        break;
+                    case "2":
+
+                        break;
+                    case "3":
+
+                        break;
+                    case "4":
+
+                        break;
+                    default:
+
+                        break;
+                }
+
+            }
+        });
         initBar();
 
         return mView;
