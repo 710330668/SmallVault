@@ -12,5 +12,16 @@
         <attr name="footerColor" format="color" />
         <attr name="footerTriangleHeight" format="dimension" />
     </declare-styleable>
-
+    <!-- 卫星式菜单 属性 -->
+    <attr name="position">
+        <enum name="left_top" value="0" />
+        <enum name="left_bottom" value="1" />
+        <enum name="right_top" value="2" />
+        <enum name="right_bottom" value="3" />
+    </attr>
+    <attr name="radius" format="dimension" />
+    <declare-styleable name="XCArcMenuView">
+        <attr name="position"></attr>
+        <attr name="radius" />
+    </declare-styleable>
 </resources>
