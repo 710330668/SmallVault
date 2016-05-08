@@ -5,7 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.example.administrator.smallvault.db.entity.Shouru;
+import com.example.administrator.smallvault.db.entity.ShouRu;
 import com.example.administrator.smallvault.db.entity.Zhichu;
 
 import java.util.ArrayList;
@@ -47,7 +47,6 @@ public class DBHelper {
                 values.put("medicine", entity.getMedicine());
                 values.put("other", entity.getOther());
                 mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU, values);
-                values = null;
             }
             return true;
         } catch (Exception e) {
@@ -71,7 +70,7 @@ public class DBHelper {
         }
     }
 
-    public boolean inster(Shouru entity) {
+    public boolean inster(ShouRu entity) {
         try {
             ContentValues values = new ContentValues();
             values.put("time", "2016-05-05");
@@ -84,12 +83,12 @@ public class DBHelper {
     }
 
 
-    public List<Shouru> queryShouru() {
-        List<Shouru> list = new ArrayList<Shouru>();
+    public List<ShouRu> queryShouru() {
+        List<ShouRu> list = new ArrayList<ShouRu>();
         Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_SHOURU, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Shouru entity = new Shouru();
+            ShouRu entity = new ShouRu();
 //            String table = cursor.getString(cursor.getColumnIndex("table_name"));
             entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
             entity.setShouru(cursor.getString(cursor.getColumnIndex("shouru")));

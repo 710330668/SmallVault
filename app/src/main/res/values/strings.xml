@@ -4,4 +4,5 @@
     <string name="fragment_one">跟踪</string>
     <string name="fragment_two">趋势</string>
     <string name="fragment_three">设置</string>
+    <string name="tixingjine">提醒金额</string>
 </resources>

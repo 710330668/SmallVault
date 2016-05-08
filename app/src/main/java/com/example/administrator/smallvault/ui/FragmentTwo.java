@@ -57,7 +57,7 @@ public class FragmentTwo extends Fragment {
         values2.put("time", "2016-05-05");
         values2.put("shouru", 15);
         for (int i = 0; i < 10; i++) {
-            getActivity().getContentResolver().insert(PayContentProvider.CONTENT_URI_SHOURU, values);
+            getActivity().getContentResolver().insert(PayContentProvider.CONTENT_URI_SHOURU, values2);
         }
     }
 
