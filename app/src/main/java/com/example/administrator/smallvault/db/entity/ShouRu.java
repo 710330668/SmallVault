@@ -3,15 +3,15 @@ package com.example.administrator.smallvault.db.entity;
 /**
  * Created by Administrator on 2016/5/5.
  */
-public class Shouru {
+public class ShouRu {
 
     private String time;
     private String shouru;
 
-    public Shouru() {
+    public ShouRu() {
     }
 
-    public Shouru(String time, String shouru) {
+    public ShouRu(String time, String shouru) {
         this.time = time;
         this.shouru = shouru;
     }
