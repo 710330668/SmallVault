@@ -1,9 +1,15 @@
 <RelativeLayout
-    android:id="@+id/container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xcskin="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 
     <com.example.administrator.smallvault.ui.view.XCArcMenuView

@@ -9,9 +9,14 @@ import android.text.style.RelativeSizeSpan;
 
 import com.example.administrator.smallvault.db.DBHelper;
 import com.example.administrator.smallvault.db.entity.Zhichu;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.formatter.YAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -86,11 +91,10 @@ public class ChartUtil {
             }
             entries1.add(new Entry((float) other, 4));
 
-
-//            for (int i = 0; i < count; i++) {
-//                xVals.add("entry" + (i + 1));
-//                entries1.add(new Entry((float) 10, i));
-//            }
+            // for (int i = 0; i < count; i++) {
+            // xVals.add("entry" + (i + 1));
+            // entries1.add(new Entry((float) 10, i));
+            // }
 
             PieDataSet ds1 = new PieDataSet(entries1, "月结:" + month + "月份");
             ds1.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -107,4 +111,61 @@ public class ChartUtil {
         }
     }
 
+    public static String[] mMonths = new String[] { "娱乐", "购物", "餐饮", "医疗", "其他" };
+
+    public static final int[] MATERIAL_COLORS = { rgb("#2ecc71"),
+        rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db") };
+
+    public static int rgb(String hex) {
+        int color = (int) Long.parseLong(hex.replace("#", ""), 16);
+        int r = (color >> 16) & 0xFF;
+        int g = (color >> 8) & 0xFF;
+        int b = (color >> 0) & 0xFF;
+        return Color.rgb(r, g, b);
+    }
+
+    public void initBarChart(BarChart mChart) {
+        mChart.setDrawBarShadow(false);
+        mChart.setDrawValueAboveBar(true);
+
+        mChart.setDescription("");
+
+        mChart.setMaxVisibleValueCount(60);
+
+        mChart.setPinchZoom(false);
+
+        mChart.setDrawGridBackground(false);
+        // mChart.setDrawYLabels(false);
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setTypeface(Typeface.DEFAULT);
+        xAxis.setDrawGridLines(false);
+        xAxis.setSpaceBetweenLabels(2);
+
+        YAxisValueFormatter custom = new MyYAxisValueFormatter();
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setTypeface(Typeface.DEFAULT);
+        leftAxis.setLabelCount(8, false);
+        leftAxis.setValueFormatter(custom);
+        leftAxis.setPosition(YAxis.YAxisLabelPosition.OUTSIDE_CHART);
+        leftAxis.setSpaceTop(15f);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setTypeface(Typeface.DEFAULT);
+        rightAxis.setLabelCount(8, false);
+        rightAxis.setValueFormatter(custom);
+        rightAxis.setSpaceTop(15f);
+        rightAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+
+        Legend l = mChart.getLegend();
+        l.setPosition(Legend.LegendPosition.BELOW_CHART_LEFT);
+        l.setForm(Legend.LegendForm.SQUARE);
+        l.setFormSize(9f);
+        l.setTextSize(11f);
+        l.setXEntrySpace(4f);
+    }
 }
