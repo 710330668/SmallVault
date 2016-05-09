@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.administrator.smallvault.R;
+import com.example.administrator.smallvault.util.SP;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -56,12 +57,34 @@ public class FragmentThree extends Fragment {
         sifangqian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                //跳转到私房钱
+                SP sph = SP.getInstance(mActivity, "password");
+                String pwd = sph.getPassword();
+                if(pwd.length()>0){
+                    Intent intent=new Intent();
+                    intent.setClass(mActivity,TruePassWordActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent=new Intent();
+                    intent.setClass(mActivity,ScratPassWordActivity.class);
+                    startActivity(intent);
+                }
             }
         });
         xijiasifangqian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SP sph = SP.getInstance(mActivity, "password");
+                String pwd = sph.getPassword();
+                if(pwd.length()>0){
+                    Intent intent=new Intent();
+                    intent.setClass(mActivity,TruePassWordActivity.class);
+                    startActivity(intent);
+                }else{
+                    Intent intent=new Intent();
+                    intent.setClass(mActivity,ScratPassWordActivity.class);
+                    startActivity(intent);
+                }
 
             }
         });

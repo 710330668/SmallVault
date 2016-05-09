@@ -23,6 +23,10 @@
 
         <activity android:name=".ui.PieActivity">
         </activity>
+        <activity android:name=".ui.ScratPassWordActivity">
+        </activity>
+        <activity android:name=".ui.TruePassWordActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -4,12 +4,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class SP {
-    private SharedPreferences sp;
-    private SharedPreferences.Editor editor;
+    private static SharedPreferences sp;
+    private static SharedPreferences.Editor editor;
+    private static SP msp;
 
-    public SP(Context context, String file) {
-        sp = context.getSharedPreferences(file, Context.MODE_PRIVATE);
-        editor = sp.edit();
+    public static SP getInstance(Context context,String file) {
+        if(sp==null){
+            synchronized (SP.class){
+                msp=new SP();
+                sp = context.getSharedPreferences(file, Context.MODE_PRIVATE);
+                editor = sp.edit();
+            }
+        }
+        return msp;
     }
 
     // 是否第一次登陆
@@ -30,5 +37,14 @@ public class SP {
 
     public String getPublicFtpAcount() {
         return sp.getString("PublicFtpAcount", "");
+    }
+    //密码
+    public void setPassword(String password) {
+        editor.putString("password", password);
+        editor.commit();
+    }
+
+    public String getPassword() {
+        return sp.getString("password", "");
     }
 }

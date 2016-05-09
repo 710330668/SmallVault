@@ -25,43 +25,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/composer_icn_plus"/>
+                android:src="@drawable/icon_jiahao"/>
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/id_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_music"
-            android:tag="music"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_yule"
+            android:tag="yule"/>
 
         <ImageView
             android:id="@+id/id_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_place"
-            android:tag="place"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_gouwu"
+            android:tag="gouwu"/>
 
         <ImageView
             android:id="@+id/id_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_sleep"
-            android:tag="sleep"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_canyin"
+            android:tag="canyin"/>
 
         <ImageView
             android:id="@+id/id_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_thought"
-            android:tag="thought"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_yiliao"
+            android:tag="yiliao"/>
 
         <ImageView
             android:id="@+id/id_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/composer_with"
-            android:tag="with"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_qita"
+            android:tag="qita"/>
     </com.example.administrator.smallvault.ui.view.XCArcMenuView>
 
 
