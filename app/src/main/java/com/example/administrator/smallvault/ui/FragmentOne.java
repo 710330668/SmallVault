@@ -38,21 +38,21 @@ public class FragmentOne extends Fragment {
                 // TODO Auto-generated method stub
                 String tag = (String) view.getTag();
                 switch (tag){
-                    case "电影":
-                        Toast.makeText(mActivity, tag, Toast.LENGTH_SHORT).show();
+                    case "yule":
+                        Toast.makeText(mActivity, "娱乐", Toast.LENGTH_SHORT).show();
                         //弹出输入框 记录支出多少
                         break;
-                    case "2":
-
+                    case "gouwu":
+                        Toast.makeText(mActivity, "购物", Toast.LENGTH_SHORT).show();
                         break;
-                    case "3":
-
+                    case "canyin":
+                        Toast.makeText(mActivity, "餐饮", Toast.LENGTH_SHORT).show();
                         break;
-                    case "4":
-
+                    case "yiliao":
+                        Toast.makeText(mActivity, "医疗", Toast.LENGTH_SHORT).show();
                         break;
                     default:
-
+                        Toast.makeText(mActivity, "其它", Toast.LENGTH_SHORT).show();
                         break;
                 }
 

@@ -5,4 +5,7 @@
     <string name="fragment_two">趋势</string>
     <string name="fragment_three">设置</string>
     <string name="tixingjine">提醒金额</string>
+    <string name="scrat_password">请设置您的密码</string>
+    <string name="pwd_setted">密码设置完成</string>
+    <string name="pwd_correct">密码正确</string>
 </resources>
