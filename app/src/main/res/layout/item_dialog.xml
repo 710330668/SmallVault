@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:id="@+id/dialog">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="请记录您的支出金额"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="15dp"/>
+    <EditText
+        android:id="@+id/et_money"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/gradient_box"
+        />
+    <TextView
+        android:id="@+id/tv_paywhere"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="请记录您的支出理由"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"/>
+    <EditText
+        android:id="@+id/et_paywhere"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="15dp"
+        android:background="@drawable/gradient_box"
+
+        />
+
+</LinearLayout>

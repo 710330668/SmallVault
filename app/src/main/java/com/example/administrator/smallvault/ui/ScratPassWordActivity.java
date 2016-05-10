@@ -42,6 +42,7 @@ public class ScratPassWordActivity extends Activity{
                     Intent intent=new Intent();
                     intent.setClass(ScratPassWordActivity.this,TruePassWordActivity.class);
                     startActivity(intent);
+                    finish();
                     return;
                 } else {
                     String encodedPwd = md5.toMd5(mPassword, "");
@@ -55,6 +56,7 @@ public class ScratPassWordActivity extends Activity{
                 if (passed) {
                     Log.d("hcj", "password is correct!");
                     Toast.makeText(mContext, mContext.getString(R.string.pwd_correct), Toast.LENGTH_LONG).show();
+
 //					finish();
                 }
             }

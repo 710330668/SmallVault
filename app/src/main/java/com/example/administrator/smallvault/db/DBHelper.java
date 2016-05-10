@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.example.administrator.smallvault.db.entity.ShouRu;
+import com.example.administrator.smallvault.db.entity.SiFangQian;
 import com.example.administrator.smallvault.db.entity.Zhichu;
 
 import java.util.ArrayList;
@@ -69,6 +70,19 @@ public class DBHelper {
             return false;
         }
     }
+    public boolean insert(SiFangQian entity) {
+        try {
+            ContentValues values = new ContentValues();
+            values.put("time", entity.getTime());
+            values.put("money", entity.getMoney());
+            values.put("paywhere", entity.getPaywhere());
+            mContentResolver.insert(PayContentProvider.CONTENT_URI_SIFANGQIAN, values);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     public boolean inster(ShouRu entity) {
         try {
@@ -120,7 +134,22 @@ public class DBHelper {
         cursor.close();
         return list;
     }
-
+    public List<SiFangQian> querySiFangQian() {
+        List<SiFangQian> list = new ArrayList<SiFangQian>();
+        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_SIFANGQIAN, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            SiFangQian entity = new SiFangQian();
+//            String table = cursor.getString(cursor.getColumnIndex("table_name"));
+            entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            entity.setMoney(cursor.getString(cursor.getColumnIndex("money")));
+            entity.setPaywhere(cursor.getString(cursor.getColumnIndex("paywhere")));
+            list.add(entity);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
 
 //    private void update() {
 //        ContentValues values = new ContentValues();

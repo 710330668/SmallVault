@@ -16,14 +16,17 @@ public class PayContentProvider extends ContentProvider {
     private static final UriMatcher sUriMatcher;
     private static final int MATCH_FIRST = 1;
     private static final int MATCH_SECOND = 2;
+    private static final int MATCH_THIRD = 3;
     public static final String AUTHORITY = "com.example.administrator.smallvault.db.PayContentProvider";
     public static final Uri CONTENT_URI_ZHICHU = Uri.parse("content://" + AUTHORITY + "/zhichu");
     public static final Uri CONTENT_URI_SHOURU = Uri.parse("content://" + AUTHORITY + "/shouru");
+    public static final Uri CONTENT_URI_SIFANGQIAN = Uri.parse("content://" + AUTHORITY + "/sifangqian");
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         sUriMatcher.addURI(AUTHORITY, "zhichu", MATCH_FIRST);
         sUriMatcher.addURI(AUTHORITY, "shouru", MATCH_SECOND);
+        sUriMatcher.addURI(AUTHORITY, "sifangqian", MATCH_THIRD);
     }
 
     private DatabaseHelper mDbHelper;
@@ -56,6 +59,10 @@ public class PayContentProvider extends ContentProvider {
 
             case MATCH_SECOND:
                 queryBuilder.setTables(DatabaseHelper.TABLE_SECOND_NAME);
+                break;
+
+            case MATCH_THIRD:
+                queryBuilder.setTables(DatabaseHelper.TABLE_THIRD_NAME);
                 break;
 
             default:
@@ -92,6 +99,14 @@ public class PayContentProvider extends ContentProvider {
                 }
             }
             break;
+            case MATCH_THIRD: {
+                long rowID = db.insert(DatabaseHelper.TABLE_THIRD_NAME, null, values);
+                if (rowID > 0) {
+                    Uri retUri = ContentUris.withAppendedId(CONTENT_URI_SIFANGQIAN, rowID);
+                    return retUri;
+                }
+            }
+            break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -109,6 +124,10 @@ public class PayContentProvider extends ContentProvider {
 
             case MATCH_SECOND:
                 count = db.delete(DatabaseHelper.TABLE_SECOND_NAME, selection, selectionArgs);
+                break;
+
+            case MATCH_THIRD:
+                count = db.delete(DatabaseHelper.TABLE_THIRD_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Unknow URI :" + uri);
@@ -129,6 +148,9 @@ public class PayContentProvider extends ContentProvider {
                 break;
             case MATCH_SECOND:
                 count = db.update(DatabaseHelper.TABLE_SECOND_NAME, values, selection, selectionArgs);
+                break;
+            case MATCH_THIRD:
+                count = db.update(DatabaseHelper.TABLE_THIRD_NAME, values, selection, selectionArgs);
                 break;
 
             default:

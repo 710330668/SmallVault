@@ -24,4 +24,10 @@
         <attr name="position"></attr>
         <attr name="radius" />
     </declare-styleable>
+    <declare-styleable name="PasswordView">
+        <attr name="password_color" format="color"></attr>
+        <attr name="password_num" format="integer"></attr>
+        <attr name="password_radius" format="dimension"></attr>
+        <attr name="border_width" format="dimension"></attr>
+    </declare-styleable>
 </resources>
