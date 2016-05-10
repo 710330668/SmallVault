@@ -2,6 +2,7 @@ package com.example.administrator.smallvault.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -55,7 +56,18 @@ public class TruePassWordActivity extends Activity{
                 if (passed) {
                     Log.d("hcj", "password is correct!");
                     Toast.makeText(mContext, mContext.getString(R.string.pwd_correct), Toast.LENGTH_LONG).show();
-//					finish();
+                    sph = SP.getInstance(TruePassWordActivity.this,"password");
+                    if(sph.getIsXujia().equals("0")){
+                        Intent intent=new Intent();
+                        intent.setClass(TruePassWordActivity.this,PayListActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }else{
+                        Intent intent=new Intent();
+                        intent.setClass(TruePassWordActivity.this,XuJiaInfoActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });

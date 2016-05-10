@@ -8,4 +8,6 @@
     <string name="scrat_password">请设置您的密码</string>
     <string name="pwd_setted">密码设置完成</string>
     <string name="pwd_correct">密码正确</string>
+    <string name="pwd_jiugongge">九宫格密码</string>
+    <string name="pwd_siwei">四位密码</string>
 </resources>

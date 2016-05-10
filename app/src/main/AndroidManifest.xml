@@ -27,6 +27,16 @@
         </activity>
         <activity android:name=".ui.TruePassWordActivity">
         </activity>
+        <activity android:name=".ui.PassWordActivity">
+        </activity>
+        <activity android:name=".ui.SiWeiPassWordActivity">
+        </activity>
+        <activity android:name=".ui.PayListActivity">
+        </activity>
+        <activity android:name=".ui.XuJiaInfoActivity">
+        </activity>
+        <activity android:name=".ui.NotifyActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -38,7 +38,7 @@ public class SP {
     public String getPublicFtpAcount() {
         return sp.getString("PublicFtpAcount", "");
     }
-    //密码
+    //九宫格密码
     public void setPassword(String password) {
         editor.putString("password", password);
         editor.commit();
@@ -47,4 +47,63 @@ public class SP {
     public String getPassword() {
         return sp.getString("password", "");
     }
+    //四位密码
+    public void setSiWeiPassword(String password) {
+        editor.putString("siweipassword", password);
+        editor.commit();
+    }
+
+    public String getSiWeiPassword() {
+        return sp.getString("siweipassword", "");
+    }
+    //虚假信息
+    public void setXiuJiaMoney(String money) {
+        editor.putString("xiujiamoney", money);
+        editor.commit();
+    }
+
+    public String getXiuJiaMoney() {
+        return sp.getString("xiujiamoney", "");
+    }
+    public void setXiuJiaWhere(String where) {
+        editor.putString("xiujiawhere", where);
+        editor.commit();
+    }
+
+    public String getXiuJiaWhere() {
+        return sp.getString("xiujiawhere", "");
+    }
+    public void setXiuJiaTime(String time) {
+        editor.putString("xiujiatime", time);
+        editor.commit();
+    }
+
+    public String getXiuJiaTime() {
+        return sp.getString("xiujiatime", "");
+    }
+    public void setIsXujia(String isXujia) {
+        editor.putString("isXujia", isXujia);
+        editor.commit();
+    }
+
+    public String getIsXujia() {
+        return sp.getString("isXujia", "");
+    }
+    public void setAllMoney(String allMoney) {
+        editor.putString("allMoney", allMoney);
+        editor.commit();
+    }
+
+    public String getAllMoney() {
+        return sp.getString("allMoney", "");
+    }
+    public void setOneTypeMoney(String oneTypeMoney) {
+        editor.putString("oneTypeMoney", oneTypeMoney);
+        editor.commit();
+    }
+
+    public String getOneTypeMoney() {
+        return sp.getString("oneTypeMoney", "");
+    }
+
 }
