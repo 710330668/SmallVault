@@ -42,6 +42,7 @@ public class PassWordActivity extends Activity {
                     Intent intent=new Intent();
                     intent.setClass(PassWordActivity.this,ScratPassWordActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -51,6 +52,7 @@ public class PassWordActivity extends Activity {
                 Intent intent = new Intent();
                 intent.setClass(PassWordActivity.this, SiWeiPassWordActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
     }

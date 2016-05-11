@@ -36,6 +36,7 @@ public class SiWeiPassWordActivity extends Activity{
                 SP sph = SP.getInstance(SiWeiPassWordActivity.this,"password");
                 sph.setSiWeiPassword(password);
                 Toast.makeText(SiWeiPassWordActivity.this, "密码设置完成", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override

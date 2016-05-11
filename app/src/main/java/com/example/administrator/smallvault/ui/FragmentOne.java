@@ -1,12 +1,22 @@
 package com.example.administrator.smallvault.ui;
 
+import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +26,7 @@ import com.example.administrator.smallvault.db.entity.Zhichu;
 import com.example.administrator.smallvault.ui.view.XCArcMenuView;
 import com.example.administrator.smallvault.util.ChartUtil;
 import com.example.administrator.smallvault.util.DateTools;
+import com.example.administrator.smallvault.util.SP;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -34,11 +45,20 @@ public class FragmentOne extends Fragment {
     private MainActivity mActivity;
     private BarChart mChart;
     private TextView zhichuTView, shouruTView;
+    private EditText et_money;
+    private EditText et_paywhere;
+    private  AlertDialog.Builder alertDialog;
+    private TextView tv_paywhere;
+    private String selectFlag;
+    private NotificationManager manager;
+    private static final int NOTIFICATION_FLAG = 1;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (MainActivity) getActivity();
+
     }
 
     @Override
@@ -46,6 +66,7 @@ public class FragmentOne extends Fragment {
             Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_one, container, false);
         XCArcMenuView view = (XCArcMenuView) mView.findViewById(R.id.arcmenu2);
+        alertDialog=new AlertDialog.Builder(mActivity);
         view.setOnMenuItemClickListener(new XCArcMenuView.OnMenuItemClickListener() {
 
             @Override
@@ -56,25 +77,27 @@ public class FragmentOne extends Fragment {
                     case "yule":
                         Toast.makeText(mActivity, "娱乐", Toast.LENGTH_SHORT)
                                 .show();
+                        selectFlag="1";
                         // 弹出输入框 记录支出多少
-                        String value = "85";
-                        DBHelper.getIntance(mActivity).updataYule(value);
+                        showDialog();
+
+
                         break;
                     case "gouwu":
-                        Toast.makeText(mActivity, "购物", Toast.LENGTH_SHORT)
-                                .show();
+                        selectFlag="2";
+                        showDialog();
                         break;
                     case "canyin":
-                        Toast.makeText(mActivity, "餐饮", Toast.LENGTH_SHORT)
-                                .show();
+                        selectFlag="3";
+                        showDialog();
                         break;
                     case "yiliao":
-                        Toast.makeText(mActivity, "医疗", Toast.LENGTH_SHORT)
-                                .show();
+                        selectFlag="4";
+                        showDialog();
                         break;
                     default:
-                        Toast.makeText(mActivity, "其它", Toast.LENGTH_SHORT)
-                                .show();
+                        selectFlag="5";
+                        showDialog();
                         break;
                 }
 
@@ -85,9 +108,68 @@ public class FragmentOne extends Fragment {
         return mView;
     }
 
+    private void showDialog() {
+        LayoutInflater inflater = mActivity.getLayoutInflater().cloneInContext(mActivity);
+        View layout = inflater.inflate(R.layout.item_dialog, null);
+        et_money = (EditText) layout.findViewById(R.id.et_money);
+        et_paywhere = (EditText) layout.findViewById(R.id.et_paywhere);
+        et_paywhere.setVisibility(View.GONE);
+        tv_paywhere=(TextView)layout.findViewById(R.id.tv_paywhere);
+        tv_paywhere.setVisibility(View.GONE);
+        alertDialog.setView(layout).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                //存入数据库
+                switch (selectFlag){
+                    case "1":
+                        DBHelper.getIntance(mActivity).updataYule(et_money.getText().toString());
+                        IsSendNotify();
+                        break;
+                    case "2":
+                        DBHelper.getIntance(mActivity).updataGouwu(et_money.getText().toString());
+                        IsSendNotify();
+                        break;
+                    case "3":
+                        DBHelper.getIntance(mActivity).updataYinshi(et_money.getText().toString());
+                        IsSendNotify();
+                        break;
+                    case "4":
+                        DBHelper.getIntance(mActivity).updataYiliao(et_money.getText().toString());
+                        IsSendNotify();
+                        break;
+                    case "5":
+                        DBHelper.getIntance(mActivity).updataQita(et_money.getText().toString());
+                        IsSendNotify();
+                        break;
+
+                }
+
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        }).show();
+    }
+
+    private void IsSendNotify() {
+        SP sph = SP.getInstance(getActivity(), "password");
+        manager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        if(!TextUtils.isEmpty(sph.getOneTypeMoney())){
+            if(Integer.valueOf(et_money.getText().toString())>Integer.valueOf(sph.getOneTypeMoney())) {
+                //如果总收入大于默认设置的收入,通知用户
+                // Notification myNotify = new Notification(R.drawable.message,
+                // "自定义通知：您有新短信息了，请注意查收！", System.currentTimeMillis());
+                makeNotify(1);
+            }
+        }
+    }
+
     private void initTop() {
         zhichuTView = (TextView) mView.findViewById(R.id.zhichuTextView);
-        zhichuTView.setText(DBHelper.getIntance(mActivity).getShouruToday());
+        zhichuTView.setText(DBHelper.getIntance(mActivity).getZhichuToday());
     }
 
     private void initBar() {
@@ -146,6 +228,27 @@ public class FragmentOne extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    private void makeNotify(int flag) {
+        Notification myNotify = new Notification();
+        myNotify.icon = R.drawable.icon_warning;
+        if (flag == 0) {
+            myNotify.tickerText = "TickerText:您的全部支出已超额!";
+        } else if (flag == 1) {
+            myNotify.tickerText = "TickerText:您的单项支出已超额!";
+        }
+        myNotify.when = System.currentTimeMillis();
+        myNotify.flags = Notification.FLAG_NO_CLEAR;// 不能够自动清除
+        RemoteViews rv = new RemoteViews(getActivity().getPackageName(),
+                R.layout.my_notification);
+        rv.setTextViewText(R.id.text_content, "您的支出已超额!");
+        myNotify.contentView = rv;
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 1, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+        myNotify.contentIntent = contentIntent;
+        manager.notify(NOTIFICATION_FLAG, myNotify);
     }
 
 }

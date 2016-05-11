@@ -53,8 +53,8 @@ public class PayListAdapter extends BaseAdapter {
         }else{
             viewHolder=(ViewHolder)convertView.getTag();
         }
-        viewHolder.tv_money.setText(list.get(position).getMoney());
-        viewHolder.tv_paywhere.setText(list.get(position).getPaywhere());
+        viewHolder.tv_money.setText("支出金额:"+list.get(position).getMoney());
+        viewHolder.tv_paywhere.setText("支出理由:"+list.get(position).getPaywhere());
         viewHolder.tv_time.setText(list.get(position).getTime());
 
         return convertView;
