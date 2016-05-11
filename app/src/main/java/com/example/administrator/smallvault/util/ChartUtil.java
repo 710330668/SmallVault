@@ -67,31 +67,31 @@ public class ChartUtil {
 
             int food = 0;
             for (Zhichu entity : list) {
-                food = food + Integer.valueOf(entity.getFood());
+                food = food + getInt(entity.getFood());
             }
             entries1.add(new Entry((float) food, 0));
 
             int shopping = 0;
             for (Zhichu entity : list) {
-                shopping = shopping + Integer.valueOf(entity.getShopping());
+                shopping = shopping + getInt(entity.getShopping());
             }
             entries1.add(new Entry((float) shopping, 1));
 
             int play = 0;
             for (Zhichu entity : list) {
-                play = play + Integer.valueOf(entity.getPlay());
+                play = play + getInt(entity.getPlay());
             }
             entries1.add(new Entry((float) play, 2));
 
             int yiliao = 0;
             for (Zhichu entity : list) {
-                yiliao = yiliao + Integer.valueOf(entity.getMedicine());
+                yiliao = yiliao + getInt(entity.getMedicine());
             }
             entries1.add(new Entry((float) yiliao, 3));
 
             int other = 0;
             for (Zhichu entity : list) {
-                other = other + Integer.valueOf(entity.getOther());
+                other = other + getInt(entity.getOther());
             }
             entries1.add(new Entry((float) other, 4));
 
@@ -115,14 +115,19 @@ public class ChartUtil {
         }
     }
 
-    public static String[] mMonths = new String[] { "娱乐", "购物", "餐饮", "医疗",
-        "其他" };
+    private int getInt(String value) {
+        if (value == null || value.equals("null")) {
+            return 0;
+        } else
+            return Integer.valueOf(value);
+    }
 
-    public static String[] mDays = new String[] { "娱乐", "购物", "餐饮", "医疗",
-            "其他" };
+    public static String[] mMonths = new String[]{"娱乐", "购物", "餐饮", "医疗",
+            "其他"};
 
-    public static final int[] MATERIAL_COLORS = { rgb("#2ecc71"),
-        rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db") };
+
+    public static final int[] MATERIAL_COLORS = {rgb("#2ecc71"),
+            rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db")};
 
     public static int rgb(String hex) {
         int color = (int) Long.parseLong(hex.replace("#", ""), 16);
@@ -186,22 +191,16 @@ public class ChartUtil {
         return 100;
     }
 
+    public void setData(BarChart mChart, Context mActivity, int count) {
+        ArrayList<Zhichu> zhichus = DBHelper.getIntance(mActivity).queryCurrentMonthZhichu();
+        ArrayList<String> xVals = ChartUtil.getIntance().getXValues(zhichus);
 
-    public void setData(BarChart mChart, Context mActivity, int count,
-            float range) {
-        ArrayList<String> xVals = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            xVals.add(ChartUtil.mMonths[i % 5]);
-        }
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
-        ArrayList<Zhichu> yList = DBHelper.getIntance(mActivity).queryCurrentZhichu();
-
-        for (int i =0 ;i<yList.size();i++) {
-            yVals1.add(new BarEntry(getNum(yList.get(i)),i));
+        for (int i = 0; i < xVals.size(); i++) {
+            yVals1.add(new BarEntry(getNum(zhichus.get(i)), i));
         }
 
         BarDataSet set1;
-
         if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
             // set1.setYVals(yVals1);
@@ -212,16 +211,27 @@ public class ChartUtil {
             set1 = new BarDataSet(yVals1, "本月开支统计");
             set1.setBarSpacePercent(35f);
             set1.setColors(ChartUtil.MATERIAL_COLORS);
-
             ArrayList<IBarDataSet> dataSets = new ArrayList<>();
             dataSets.add(set1);
-
             BarData data = new BarData(xVals, dataSets);
             data.setValueTextSize(10f);
             data.setValueTypeface(Typeface.DEFAULT);
-
             mChart.setData(data);
         }
+    }
+
+    private ArrayList<String> getXValues(ArrayList<Zhichu> zhichus) {
+        ArrayList<String> strings = new ArrayList<>();
+        for (int i = 0; i < zhichus.size(); i++) {
+            strings.add(getDay(zhichus.get(i).getTime()) + "");
+        }
+        return strings;
+    }
+
+    public int getDay(String time) {
+        int day = 0;
+        day = Integer.valueOf(time.substring(6, 8));
+        return day;
     }
 
     private int getNum(Zhichu entity) {

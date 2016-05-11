@@ -84,35 +84,30 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/id_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_yule"
             android:tag="yule"/>
 
         <ImageView
-            android:id="@+id/id_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_gouwu"
             android:tag="gouwu"/>
 
         <ImageView
-            android:id="@+id/id_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_canyin"
             android:tag="canyin"/>
 
         <ImageView
-            android:id="@+id/id_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_yiliao"
             android:tag="yiliao"/>
 
         <ImageView
-            android:id="@+id/id_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:src="@drawable/icon_qita"

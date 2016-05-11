@@ -6,6 +6,7 @@ package com.example.administrator.smallvault.db.entity;
 public class Zhichu {
 
     private String time;
+    private String month;//月份
     private String food;
     private String shopping;
     private String play;
@@ -24,6 +25,13 @@ public class Zhichu {
         this.other = other;
     }
 
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
     public String getTime() {
         return time;
     }

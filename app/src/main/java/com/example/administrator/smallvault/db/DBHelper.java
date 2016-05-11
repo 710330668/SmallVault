@@ -38,11 +38,16 @@ public class DBHelper {
         return intance;
     }
 
+    private String getMonth() {
+        return DateTools.getDateYYYYMMDD().substring(0, 6);
+    }
+
     public boolean inster(List<Zhichu> list) {
         try {
             for (Zhichu entity : list) {
                 ContentValues values = new ContentValues();
                 values.put("time", entity.getTime());
+                values.put("month", getMonth());
                 values.put("food", entity.getFood());
                 values.put("shopping", entity.getShopping());
                 values.put("play", entity.getPlay());
@@ -61,6 +66,7 @@ public class DBHelper {
         try {
             ContentValues values = new ContentValues();
             values.put("time", entity.getTime());
+            values.put("month", getMonth());
             values.put("food", entity.getFood());
             values.put("shopping", entity.getShopping());
             values.put("play", entity.getPlay());
@@ -90,7 +96,8 @@ public class DBHelper {
     public boolean inster(ShouRu entity) {
         try {
             ContentValues values = new ContentValues();
-            values.put("time", "2016-05-05");
+            values.put("time", DateTools.getDateYYYYMMDD());
+            values.put("month", getMonth());
             values.put("shouru", 15);
             mContentResolver.insert(PayContentProvider.CONTENT_URI_SHOURU,
                     values);
@@ -109,6 +116,7 @@ public class DBHelper {
             ShouRu entity = new ShouRu();
             // String table = cursor.getString(cursor.getColumnIndex("table_name"));
             entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
             entity.setShouru(cursor.getString(cursor.getColumnIndex("shouru")));
             list.add(entity);
             cursor.moveToNext();
@@ -127,8 +135,10 @@ public class DBHelper {
                 entity.setShouru(cursor.getString(cursor
                         .getColumnIndex("shouru")));
                 entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+                entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
             }
         }
+        cursor.close();
         return entity;
     }
 
@@ -140,6 +150,7 @@ public class DBHelper {
         if (cursor != null) {
             while (cursor.moveToNext()) {
                 entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+                entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
                 entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
                 entity.setMedicine(cursor.getString(cursor
                         .getColumnIndex("medicine")));
@@ -162,6 +173,7 @@ public class DBHelper {
             Zhichu entity = new Zhichu();
             // String table = cursor.getString(cursor.getColumnIndex("table_name"));
             entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
             entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
             entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
             entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
@@ -176,23 +188,21 @@ public class DBHelper {
 
 
     public ArrayList<Zhichu> queryCurrentZhichu() {
-        String dataStr = DateTools.getDateYYYYMMDD().substring(0,5);
         ArrayList<Zhichu> list = new ArrayList<>();
-        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_ZHICHU, null, null, null, null);
+        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_ZHICHU, null, "month=?",
+                new String[]{getMonth()}, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Zhichu entity = new Zhichu();
             // String table = cursor.getString(cursor.getColumnIndex("table_name"));
-            if (cursor.getString(cursor.getColumnIndex("time")).contains(dataStr)) {
-                entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
-                entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
-                entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
-                entity.setMedicine(cursor.getString(cursor.getColumnIndex("medicine")));
-                entity.setOther(cursor.getString(cursor.getColumnIndex("other")));
-                list.add(entity);
-            }else{
-                continue;
-            }
+            entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
+            entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
+            entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
+            entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
+            entity.setMedicine(cursor.getString(cursor.getColumnIndex("medicine")));
+            entity.setOther(cursor.getString(cursor.getColumnIndex("other")));
+            list.add(entity);
             cursor.moveToNext();
         }
         cursor.close();
@@ -232,12 +242,6 @@ public class DBHelper {
                 + checkNumber(entity.getOther())
                 + checkNumber(entity.getShopping())
                 + checkNumber(entity.getPlay());
-//    private void update() {
-//        ContentValues values = new ContentValues();
-//        values.put("detail", "my name is harvic !!!!!!!!!!!!!!!!!!!!!!!!!!");
-//        int count = this.getContentResolver().update(mCurrentURI, values, "_id = 1", null);
-//        Log.e("test ", "count=" + count);
-//    }
 
         return num + "";
     }
@@ -253,44 +257,69 @@ public class DBHelper {
         ContentValues values = new ContentValues();
         String dataStr = DateTools.getDateYYYYMMDD();
         values.put("play", value);
-        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
-                "time=" + dataStr, null);
+        commonValues(values, dataStr);
     }
 
     public void updataYinshi(String value) {
         ContentValues values = new ContentValues();
         String dataStr = DateTools.getDateYYYYMMDD();
         values.put("food", value);
-        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
-                "time=" + dataStr, null);
+        commonValues(values, dataStr);
     }
 
     public void updataGouwu(String value) {
         ContentValues values = new ContentValues();
         String dataStr = DateTools.getDateYYYYMMDD();
         values.put("shopping", value);
-        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
-                "time=" + dataStr, null);
+        commonValues(values, dataStr);
     }
 
     public void updataYiliao(String value) {
         ContentValues values = new ContentValues();
         String dataStr = DateTools.getDateYYYYMMDD();
         values.put("medicine", value);
-        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
-                "time=" + dataStr, null);
+        commonValues(values, dataStr);
     }
 
     public void updataQita(String value) {
         ContentValues values = new ContentValues();
         String dataStr = DateTools.getDateYYYYMMDD();
         values.put("other", value);
-        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
-                "time=" + dataStr, null);
+        commonValues(values, dataStr);
     }
 
-    public int getCurrentMonthNum() {
-        int num = 0;
-        return num;
+    private void commonValues(ContentValues values, String dataStr) {
+        Cursor cursor = mContentResolver.query(
+                PayContentProvider.CONTENT_URI_ZHICHU, null, "time=?",
+                new String[]{dataStr}, null);
+        if (cursor.getCount() != 0) {
+            mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                    "time=" + dataStr, null);
+        } else {
+            values.put("time", dataStr);
+            values.put("month", getMonth());
+            mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU, values);
+        }
+    }
+
+    public ArrayList<Zhichu> queryCurrentMonthZhichu() {
+        ArrayList<Zhichu> arrayList = new ArrayList<>();
+        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_ZHICHU, null, "month=?",
+                new String[]{getMonth()}, "time DESC");
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Zhichu entity = new Zhichu();
+            entity.setMonth(cursor.getString(cursor.getColumnIndex("month")));
+            entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
+            entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
+            entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
+            entity.setMedicine(cursor.getString(cursor.getColumnIndex("medicine")));
+            entity.setOther(cursor.getString(cursor.getColumnIndex("other")));
+            arrayList.add(entity);
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return arrayList;
     }
 }

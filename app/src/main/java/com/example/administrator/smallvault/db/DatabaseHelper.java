@@ -16,6 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "table_name" + " VARCHAR(50) default 'zhichu',"
             + "time" + " VARCHAR(10),"
+            + "month" + " VARCHAR(10),"
             + "food" + " VARCHAR(10),"
             + "shopping" + " VARCHAR(10),"
             + "play" + " VARCHAR(10),"
@@ -27,6 +28,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + BaseColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + "table_name" + " VARCHAR(50) default 'shouru',"
             + "time" + " VARCHAR(10),"
+            + "month" + " VARCHAR(10),"
             + "shouru" + " VARCHAR(10)"
             + ");";
     public static final String SQL_CREATE_TABLE_THIRD = "CREATE TABLE " + TABLE_THIRD_NAME + " ("

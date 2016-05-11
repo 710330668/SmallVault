@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RemoteViews;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.administrator.smallvault.R;
 import com.example.administrator.smallvault.db.DBHelper;
@@ -75,13 +74,8 @@ public class FragmentOne extends Fragment {
                 String tag = (String) view.getTag();
                 switch (tag) {
                     case "yule":
-                        Toast.makeText(mActivity, "娱乐", Toast.LENGTH_SHORT)
-                                .show();
                         selectFlag="1";
-                        // 弹出输入框 记录支出多少
                         showDialog();
-
-
                         break;
                     case "gouwu":
                         selectFlag="2";
@@ -172,6 +166,10 @@ public class FragmentOne extends Fragment {
         zhichuTView.setText(DBHelper.getIntance(mActivity).getZhichuToday());
     }
 
+    private void updataUI(){
+        zhichuTView.setText(DBHelper.getIntance(mActivity).getZhichuToday());
+        setData(5, ChartUtil.getIntance().getBarMaxRange(mActivity));
+    }
     private void initBar() {
         mChart = (BarChart) mView.findViewById(R.id.barChart);
         mChart.setOnTouchListener(null);
