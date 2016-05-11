@@ -8,7 +8,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.MainActivity">
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -21,21 +22,29 @@
             android:authorities="com.example.administrator.smallvault.db.PayContentProvider"
             android:exported="true"/>
 
-        <activity android:name=".ui.PieActivity">
+        <activity android:name=".ui.PieActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.ScratPassWordActivity">
+        <activity android:name=".ui.ScratPassWordActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.TruePassWordActivity">
+        <activity android:name=".ui.TruePassWordActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.PassWordActivity">
+        <activity android:name=".ui.PassWordActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.SiWeiPassWordActivity">
+        <activity android:name=".ui.SiWeiPassWordActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.PayListActivity">
+        <activity android:name=".ui.PayListActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.XuJiaInfoActivity">
+        <activity android:name=".ui.XuJiaInfoActivity"
+                  android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.NotifyActivity">
+        <activity android:name=".ui.NotifyActivity"
+                  android:screenOrientation="portrait">
         </activity>
     </application>
 

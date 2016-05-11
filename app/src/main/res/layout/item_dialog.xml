@@ -10,13 +10,15 @@
         android:textSize="20sp"
         android:text="请记录您的支出金额"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="15dp"
+      />
     <EditText
         android:id="@+id/et_money"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_margin="15dp"
         android:background="@drawable/gradient_box"
+        android:numeric="integer"
         />
     <TextView
         android:id="@+id/tv_paywhere"

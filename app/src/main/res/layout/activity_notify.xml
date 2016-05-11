@@ -2,31 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/common_white_disabled">
+    <include layout="@layout/activity_title"></include>
     <Button
         android:id="@+id/bt_allmoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="设置每日总支出"
+        android:text="设置每日总支出上限"
         android:textSize="20sp"
+        android:textColor="@android:color/white"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:background="@drawable/style_button"/>
     <Button
         android:id="@+id/bt_onetypemoney"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="设置每日单一类别支出上限"
         android:textSize="20sp"
+        android:textColor="@android:color/white"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"/>
+        android:layout_marginRight="15dp"
+        android:background="@drawable/style_button"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="当您的支出已经超过您设置的上限的时候，APP会自动通知你的哦"
+        android:text="如果您的支出已经超过您设置的上限，APP会自动通知你的哦"
         android:textSize="20dp"
         android:gravity="center"
+        android:textColor="@android:color/black"
         />
 
 </LinearLayout>

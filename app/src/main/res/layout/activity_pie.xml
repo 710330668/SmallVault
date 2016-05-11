@@ -6,7 +6,7 @@
     android:background="@android:color/white"
     android:layout_height="match_parent"
     tools:context="com.example.administrator.smallvault.ui.PieActivity">
-
+    <include layout="@layout/activity_title"></include>
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
         android:layout_width="match_parent"

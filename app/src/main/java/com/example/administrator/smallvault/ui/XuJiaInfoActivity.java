@@ -25,8 +25,8 @@ public class XuJiaInfoActivity extends Activity {
 
     private void initDate() {
         SP sph = SP.getInstance(XuJiaInfoActivity.this,"password");
-        tv_money.setText(sph.getXiuJiaMoney());
-        tv_paywhere.setText(sph.getXiuJiaWhere());
+        tv_money.setText("支出金额:"+sph.getXiuJiaMoney());
+        tv_paywhere.setText("支出理由:"+sph.getXiuJiaWhere());
         tv_time.setText(sph.getXiuJiaTime());
     }
 
