@@ -13,10 +13,14 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.formatter.YAxisValueFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
@@ -111,7 +115,11 @@ public class ChartUtil {
         }
     }
 
-    public static String[] mMonths = new String[] { "娱乐", "购物", "餐饮", "医疗", "其他" };
+    public static String[] mMonths = new String[] { "娱乐", "购物", "餐饮", "医疗",
+        "其他" };
+
+    public static String[] mDays = new String[] { "娱乐", "购物", "餐饮", "医疗",
+            "其他" };
 
     public static final int[] MATERIAL_COLORS = { rgb("#2ecc71"),
         rgb("#f1c40f"), rgb("#e74c3c"), rgb("#3498db") };
@@ -167,5 +175,69 @@ public class ChartUtil {
         l.setFormSize(9f);
         l.setTextSize(11f);
         l.setXEntrySpace(4f);
+    }
+
+    // TODO 第一个柱状图y轴范围
+    public int getBarMaxRange(Context mContent) {
+        String dataStr = DateTools.getDateYYYYMMDD();
+        Zhichu entity = DBHelper.getIntance(mContent).queryZhichu(dataStr);
+
+        // 计算entity的最大值
+        return 100;
+    }
+
+
+    public void setData(BarChart mChart, Context mActivity, int count,
+            float range) {
+        ArrayList<String> xVals = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            xVals.add(ChartUtil.mMonths[i % 5]);
+        }
+        ArrayList<BarEntry> yVals1 = new ArrayList<>();
+        ArrayList<Zhichu> yList = DBHelper.getIntance(mActivity).queryCurrentZhichu();
+
+        for (int i =0 ;i<yList.size();i++) {
+            yVals1.add(new BarEntry(getNum(yList.get(i)),i));
+        }
+
+        BarDataSet set1;
+
+        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+            // set1.setYVals(yVals1);
+            // mChart.getData().setXVals(xVals);
+            mChart.getData().notifyDataChanged();
+            mChart.notifyDataSetChanged();
+        } else {
+            set1 = new BarDataSet(yVals1, "本月开支统计");
+            set1.setBarSpacePercent(35f);
+            set1.setColors(ChartUtil.MATERIAL_COLORS);
+
+            ArrayList<IBarDataSet> dataSets = new ArrayList<>();
+            dataSets.add(set1);
+
+            BarData data = new BarData(xVals, dataSets);
+            data.setValueTextSize(10f);
+            data.setValueTypeface(Typeface.DEFAULT);
+
+            mChart.setData(data);
+        }
+    }
+
+    private int getNum(Zhichu entity) {
+        int num = 0;
+        num = num + checkNumber(entity.getFood())
+                + checkNumber(entity.getMedicine())
+                + checkNumber(entity.getOther())
+                + checkNumber(entity.getShopping())
+                + checkNumber(entity.getPlay());
+        return num;
+    }
+
+    public int checkNumber(String string) {
+        if (string != null && !string.equals("")) {
+            return Integer.valueOf(string);
+        } else
+            return 0;
     }
 }

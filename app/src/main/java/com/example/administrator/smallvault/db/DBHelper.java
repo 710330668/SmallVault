@@ -8,6 +8,7 @@ import android.database.Cursor;
 import com.example.administrator.smallvault.db.entity.ShouRu;
 import com.example.administrator.smallvault.db.entity.SiFangQian;
 import com.example.administrator.smallvault.db.entity.Zhichu;
+import com.example.administrator.smallvault.util.DateTools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,8 @@ public class DBHelper {
                 values.put("play", entity.getPlay());
                 values.put("medicine", entity.getMedicine());
                 values.put("other", entity.getOther());
-                mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU, values);
+                mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU,
+                        values);
             }
             return true;
         } catch (Exception e) {
@@ -64,7 +66,8 @@ public class DBHelper {
             values.put("play", entity.getPlay());
             values.put("medicine", entity.getMedicine());
             values.put("other", entity.getOther());
-            mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU, values);
+            mContentResolver.insert(PayContentProvider.CONTENT_URI_ZHICHU,
+                    values);
             return true;
         } catch (Exception e) {
             return false;
@@ -89,21 +92,22 @@ public class DBHelper {
             ContentValues values = new ContentValues();
             values.put("time", "2016-05-05");
             values.put("shouru", 15);
-            mContentResolver.insert(PayContentProvider.CONTENT_URI_SHOURU, values);
+            mContentResolver.insert(PayContentProvider.CONTENT_URI_SHOURU,
+                    values);
             return true;
         } catch (Exception e) {
             return false;
         }
     }
 
-
-    public List<ShouRu> queryShouru() {
-        List<ShouRu> list = new ArrayList<ShouRu>();
-        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_SHOURU, null, null, null, null);
+    public ArrayList<ShouRu> queryShouru() {
+        ArrayList<ShouRu> list = new ArrayList<>();
+        Cursor cursor = mContentResolver.query(
+                PayContentProvider.CONTENT_URI_SHOURU, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             ShouRu entity = new ShouRu();
-//            String table = cursor.getString(cursor.getColumnIndex("table_name"));
+            // String table = cursor.getString(cursor.getColumnIndex("table_name"));
             entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
             entity.setShouru(cursor.getString(cursor.getColumnIndex("shouru")));
             list.add(entity);
@@ -113,15 +117,50 @@ public class DBHelper {
         return list;
     }
 
+    public ShouRu queryShouru(String dataStr) {
+        ShouRu entity = new ShouRu();
+        Cursor cursor = mContentResolver.query(
+                PayContentProvider.CONTENT_URI_SHOURU, null, "time=?",
+                new String[]{dataStr}, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                entity.setShouru(cursor.getString(cursor
+                        .getColumnIndex("shouru")));
+                entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+            }
+        }
+        return entity;
+    }
+
+    public Zhichu queryZhichu(String dataStr) {
+        Zhichu entity = new Zhichu();
+        Cursor cursor = mContentResolver.query(
+                PayContentProvider.CONTENT_URI_ZHICHU, null, "time=?",
+                new String[]{dataStr}, null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
+                entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
+                entity.setMedicine(cursor.getString(cursor
+                        .getColumnIndex("medicine")));
+                entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
+                entity.setShopping(cursor.getString(cursor
+                        .getColumnIndex("shopping")));
+                entity.setOther(cursor.getString(cursor.getColumnIndex("other")));
+            }
+        }
+        cursor.close();
+        return entity;
+    }
 
     public ArrayList<Zhichu> queryZhichu() {
         ArrayList<Zhichu> list = new ArrayList<>();
-        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_ZHICHU, null, null, null, null);
+        Cursor cursor = mContentResolver.query(
+                PayContentProvider.CONTENT_URI_ZHICHU, null, null, null, null);
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             Zhichu entity = new Zhichu();
-
-//            String table = cursor.getString(cursor.getColumnIndex("table_name"));
+            // String table = cursor.getString(cursor.getColumnIndex("table_name"));
             entity.setTime(cursor.getString(cursor.getColumnIndex("time")));
             entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
             entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
@@ -134,6 +173,33 @@ public class DBHelper {
         cursor.close();
         return list;
     }
+
+
+    public ArrayList<Zhichu> queryCurrentZhichu() {
+        String dataStr = DateTools.getDateYYYYMMDD().substring(0,5);
+        ArrayList<Zhichu> list = new ArrayList<>();
+        Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_ZHICHU, null, null, null, null);
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            Zhichu entity = new Zhichu();
+            // String table = cursor.getString(cursor.getColumnIndex("table_name"));
+            if (cursor.getString(cursor.getColumnIndex("time")).contains(dataStr)) {
+                entity.setFood(cursor.getString(cursor.getColumnIndex("food")));
+                entity.setShopping(cursor.getString(cursor.getColumnIndex("shopping")));
+                entity.setPlay(cursor.getString(cursor.getColumnIndex("play")));
+                entity.setMedicine(cursor.getString(cursor.getColumnIndex("medicine")));
+                entity.setOther(cursor.getString(cursor.getColumnIndex("other")));
+                list.add(entity);
+            }else{
+                continue;
+            }
+            cursor.moveToNext();
+        }
+        cursor.close();
+        return list;
+    }
+
+
     public List<SiFangQian> querySiFangQian() {
         List<SiFangQian> list = new ArrayList<SiFangQian>();
         Cursor cursor = mContentResolver.query(PayContentProvider.CONTENT_URI_SIFANGQIAN, null, null, null, null);
@@ -151,6 +217,21 @@ public class DBHelper {
         return list;
     }
 
+    public CharSequence getShouruToday() {
+        String dataStr = DateTools.getDateYYYYMMDD();
+        ShouRu entity = queryShouru(dataStr);
+        return entity.getShouru();
+    }
+
+    public CharSequence getZhichuToday() {
+        String dataStr = DateTools.getDateYYYYMMDD();
+        Zhichu entity = queryZhichu(dataStr);
+        int num = 0;
+        num = num + checkNumber(entity.getFood())
+                + checkNumber(entity.getMedicine())
+                + checkNumber(entity.getOther())
+                + checkNumber(entity.getShopping())
+                + checkNumber(entity.getPlay());
 //    private void update() {
 //        ContentValues values = new ContentValues();
 //        values.put("detail", "my name is harvic !!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -158,9 +239,58 @@ public class DBHelper {
 //        Log.e("test ", "count=" + count);
 //    }
 
+        return num + "";
+    }
 
-//    private void delete() {
-//        int count = this.getContentResolver().delete(mCurrentURI, "_id = 1", null);
-//        Log.e("test ", "count=" + count);
-//    }
+    public int checkNumber(String string) {
+        if (string != null && !string.equals("")) {
+            return Integer.valueOf(string);
+        } else
+            return 0;
+    }
+
+    public void updataYule(String value) {
+        ContentValues values = new ContentValues();
+        String dataStr = DateTools.getDateYYYYMMDD();
+        values.put("play", value);
+        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                "time=" + dataStr, null);
+    }
+
+    public void updataYinshi(String value) {
+        ContentValues values = new ContentValues();
+        String dataStr = DateTools.getDateYYYYMMDD();
+        values.put("food", value);
+        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                "time=" + dataStr, null);
+    }
+
+    public void updataGouwu(String value) {
+        ContentValues values = new ContentValues();
+        String dataStr = DateTools.getDateYYYYMMDD();
+        values.put("shopping", value);
+        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                "time=" + dataStr, null);
+    }
+
+    public void updataYiliao(String value) {
+        ContentValues values = new ContentValues();
+        String dataStr = DateTools.getDateYYYYMMDD();
+        values.put("medicine", value);
+        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                "time=" + dataStr, null);
+    }
+
+    public void updataQita(String value) {
+        ContentValues values = new ContentValues();
+        String dataStr = DateTools.getDateYYYYMMDD();
+        values.put("other", value);
+        mContentResolver.update(PayContentProvider.CONTENT_URI_ZHICHU, values,
+                "time=" + dataStr, null);
+    }
+
+    public int getCurrentMonthNum() {
+        int num = 0;
+        return num;
+    }
 }

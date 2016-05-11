@@ -7,19 +7,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.administrator.smallvault.R;
+import com.example.administrator.smallvault.db.DBHelper;
+import com.example.administrator.smallvault.db.entity.Zhichu;
 import com.example.administrator.smallvault.ui.view.XCArcMenuView;
 import com.example.administrator.smallvault.util.ChartUtil;
+import com.example.administrator.smallvault.util.DateTools;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 
 import java.util.ArrayList;
 
@@ -28,11 +29,11 @@ import butterknife.ButterKnife;
 /**
  * 跟踪fragment
  */
-public class FragmentOne extends Fragment implements
-        OnChartValueSelectedListener {
+public class FragmentOne extends Fragment {
     private View mView;
     private MainActivity mActivity;
     private BarChart mChart;
+    private TextView zhichuTView, shouruTView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +57,8 @@ public class FragmentOne extends Fragment implements
                         Toast.makeText(mActivity, "娱乐", Toast.LENGTH_SHORT)
                                 .show();
                         // 弹出输入框 记录支出多少
+                        String value = "85";
+                        DBHelper.getIntance(mActivity).updataYule(value);
                         break;
                     case "gouwu":
                         Toast.makeText(mActivity, "购物", Toast.LENGTH_SHORT)
@@ -78,17 +81,20 @@ public class FragmentOne extends Fragment implements
             }
         });
         initBar();
-
+        initTop();
         return mView;
+    }
+
+    private void initTop() {
+        zhichuTView = (TextView) mView.findViewById(R.id.zhichuTextView);
+        zhichuTView.setText(DBHelper.getIntance(mActivity).getShouruToday());
     }
 
     private void initBar() {
         mChart = (BarChart) mView.findViewById(R.id.barChart);
-        mChart.setOnChartValueSelectedListener(this);
+        mChart.setOnTouchListener(null);
         ChartUtil.getIntance().initBarChart(mChart);
-
-        setData(5, 10);
-
+        setData(5, ChartUtil.getIntance().getBarMaxRange(mActivity));
     }
 
     private void setData(int count, float range) {
@@ -98,11 +104,19 @@ public class FragmentOne extends Fragment implements
         }
         ArrayList<BarEntry> yVals1 = new ArrayList<>();
 
-        for (int i = 0; i < count; i++) {
-            float mult = (range + 1);
-            float val = (float) (Math.random() * mult);
-            yVals1.add(new BarEntry(val, i));
-        }
+        String dataStr = DateTools.getDateYYYYMMDD();
+        Zhichu entity = DBHelper.getIntance(mActivity).queryZhichu(dataStr);
+
+        yVals1.add(new BarEntry(DBHelper.getIntance(mActivity).checkNumber(
+                entity.getPlay()), 0));
+        yVals1.add(new BarEntry(DBHelper.getIntance(mActivity).checkNumber(
+                entity.getShopping()), 1));
+        yVals1.add(new BarEntry(DBHelper.getIntance(mActivity).checkNumber(
+                entity.getFood()), 2));
+        yVals1.add(new BarEntry(DBHelper.getIntance(mActivity).checkNumber(
+                entity.getMedicine()), 3));
+        yVals1.add(new BarEntry(DBHelper.getIntance(mActivity).checkNumber(
+                entity.getOther()), 4));
 
         BarDataSet set1;
 
@@ -134,14 +148,4 @@ public class FragmentOne extends Fragment implements
         ButterKnife.unbind(this);
     }
 
-    @Override
-    public void onValueSelected(Entry e, int dataSetIndex, Highlight h) {
-        if (e == null)
-            return;
-    }
-
-    @Override
-    public void onNothingSelected() {
-
-    }
 }
