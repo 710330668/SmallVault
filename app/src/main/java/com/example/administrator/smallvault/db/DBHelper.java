@@ -236,7 +236,7 @@ public class DBHelper {
     public CharSequence getZhichuToday() {
         String dataStr = DateTools.getDateYYYYMMDD();
         Zhichu entity = queryZhichu(dataStr);
-        int num = 0;
+        float num = 0;
         num = num + checkNumber(entity.getFood())
                 + checkNumber(entity.getMedicine())
                 + checkNumber(entity.getOther())
@@ -246,11 +246,12 @@ public class DBHelper {
         return num + "";
     }
 
-    public int checkNumber(String string) {
+    public float checkNumber(String string) {
         if (string != null && !string.equals("")) {
-            return Integer.valueOf(string);
+//            return (new   Double(Double.valueOf(string))).intValue();
+            return Float.valueOf(string);
         } else
-            return 0;
+            return Float.valueOf(0);
     }
 
     public void updataYule(String value) {

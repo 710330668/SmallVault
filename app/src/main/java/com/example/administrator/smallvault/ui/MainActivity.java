@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.administrator.smallvault.R;
@@ -37,14 +38,19 @@ public class MainActivity extends IndicatorFragmentActivity {
         manager = (NotificationManager) getSystemService(
                 Context.NOTIFICATION_SERVICE);
         if (!TextUtils.isEmpty(sph.getAllMoney())) {
-            if (Integer.valueOf(
-                    DBHelper.getIntance(MainActivity.this).getZhichuToday()
-                            + "") > Integer.valueOf(sph.getAllMoney())) {
-                // 如果总收入大于默认设置的收入,通知用户
-                // Notification myNotify = new Notification(R.drawable.message,
-                // "自定义通知：您有新短信息了，请注意查收！", System.currentTimeMillis());
-                makeNotify(0);
-            }
+           try {
+               if (Integer.valueOf(
+                       DBHelper.getIntance(MainActivity.this).getZhichuToday()
+                               + "") > Integer.valueOf(sph.getAllMoney())) {
+                   // 如果总收入大于默认设置的收入,通知用户
+                   // Notification myNotify = new Notification(R.drawable.message,
+                   // "自定义通知：您有新短信息了，请注意查收！", System.currentTimeMillis());
+                   makeNotify(0);
+               }
+           }catch (Exception e){
+               Log.e("","");
+           }
+
         }
 
     }
@@ -58,7 +64,6 @@ public class MainActivity extends IndicatorFragmentActivity {
             myNotify.tickerText = "TickerText:您的单项支出已超额!";
         }
         myNotify.when = System.currentTimeMillis();
-        myNotify.flags = Notification.FLAG_NO_CLEAR;// 不能够自动清除
         RemoteViews rv = new RemoteViews(getPackageName(),
                 R.layout.my_notification);
         rv.setTextViewText(R.id.text_content, "您的支出已超额!");
@@ -67,6 +72,7 @@ public class MainActivity extends IndicatorFragmentActivity {
         PendingIntent contentIntent = PendingIntent.getActivity(this, 1, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         myNotify.contentIntent = contentIntent;
+        myNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         manager.notify(NOTIFICATION_FLAG, myNotify);
     }
 

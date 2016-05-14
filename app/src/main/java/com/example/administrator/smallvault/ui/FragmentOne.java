@@ -138,6 +138,7 @@ public class FragmentOne extends Fragment {
                         break;
 
                 }
+                updataUI();
 
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -173,11 +174,12 @@ public class FragmentOne extends Fragment {
     private void initBar() {
         mChart = (BarChart) mView.findViewById(R.id.barChart);
         mChart.setOnTouchListener(null);
-        ChartUtil.getIntance().initBarChart(mChart);
+        mChart.clear();
         setData(5, ChartUtil.getIntance().getBarMaxRange(mActivity));
     }
 
     private void setData(int count, float range) {
+        ChartUtil.getIntance().initBarChart(mChart);
         ArrayList<String> xVals = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             xVals.add(ChartUtil.mMonths[i % 5]);
@@ -200,13 +202,13 @@ public class FragmentOne extends Fragment {
 
         BarDataSet set1;
 
-        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
-            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
-            // set1.setYVals(yVals1);
-            // mChart.getData().setXVals(xVals);
-            mChart.getData().notifyDataChanged();
-            mChart.notifyDataSetChanged();
-        } else {
+//        if (mChart.getData() != null && mChart.getData().getDataSetCount() > 0) {
+//            set1 = (BarDataSet) mChart.getData().getDataSetByIndex(0);
+//            // set1.setYVals(yVals1);
+//            // mChart.getData().setXVals(xVals);
+//            mChart.getData().notifyDataChanged();
+//            mChart.notifyDataSetChanged();
+//        } else {
             set1 = new BarDataSet(yVals1, "一天消费");
             set1.setBarSpacePercent(35f);
             set1.setColors(ChartUtil.MATERIAL_COLORS);
@@ -219,7 +221,9 @@ public class FragmentOne extends Fragment {
             data.setValueTypeface(Typeface.DEFAULT);
 
             mChart.setData(data);
-        }
+//        }
+
+        mChart.invalidate();
     }
 
     @Override
@@ -232,12 +236,11 @@ public class FragmentOne extends Fragment {
         Notification myNotify = new Notification();
         myNotify.icon = R.drawable.icon_warning;
         if (flag == 0) {
-            myNotify.tickerText = "TickerText:您的全部支出已超额!";
+            myNotify.tickerText = "提示:您的全部支出已超额!";
         } else if (flag == 1) {
-            myNotify.tickerText = "TickerText:您的单项支出已超额!";
+            myNotify.tickerText = "提示:您的单项支出已超额!";
         }
         myNotify.when = System.currentTimeMillis();
-        myNotify.flags = Notification.FLAG_NO_CLEAR;// 不能够自动清除
         RemoteViews rv = new RemoteViews(getActivity().getPackageName(),
                 R.layout.my_notification);
         rv.setTextViewText(R.id.text_content, "您的支出已超额!");
@@ -246,6 +249,7 @@ public class FragmentOne extends Fragment {
         PendingIntent contentIntent = PendingIntent.getActivity(getActivity(), 1, intent,
                 PendingIntent.FLAG_ONE_SHOT);
         myNotify.contentIntent = contentIntent;
+        myNotify.flags |= Notification.FLAG_AUTO_CANCEL;
         manager.notify(NOTIFICATION_FLAG, myNotify);
     }
 

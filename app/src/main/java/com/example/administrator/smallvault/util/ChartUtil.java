@@ -119,7 +119,7 @@ public class ChartUtil {
         if (value == null || value.equals("null")) {
             return 0;
         } else
-            return Integer.valueOf(value);
+            return (new   Double(Double.valueOf(value))).intValue();
     }
 
     public static String[] mMonths = new String[]{"娱乐", "购物", "餐饮", "医疗",
@@ -246,7 +246,7 @@ public class ChartUtil {
 
     public int checkNumber(String string) {
         if (string != null && !string.equals("")) {
-            return Integer.valueOf(string);
+            return (new   Double(Double.valueOf(string))).intValue();
         } else
             return 0;
     }
