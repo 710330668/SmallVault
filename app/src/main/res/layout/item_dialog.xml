@@ -18,7 +18,6 @@
         android:layout_height="40dp"
         android:layout_margin="15dp"
         android:background="@drawable/gradient_box"
-        android:numeric="integer"
         />
     <TextView
         android:id="@+id/tv_paywhere"

@@ -17,7 +17,7 @@ import com.example.administrator.smallvault.util.ChartUtil;
 import com.example.administrator.smallvault.util.DateTools;
 import com.github.mikephil.charting.charts.BarChart;
 
-public class FragmentTwo extends Fragment{
+public class FragmentTwo extends Fragment {
 
     private View mView;
     private TextView txtView;
@@ -32,11 +32,9 @@ public class FragmentTwo extends Fragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_two, container, false);
         txtView = (TextView) mView.findViewById(R.id.txtView);
-         initData();
-        // getData();
         initBar();
         return mView;
     }
@@ -45,15 +43,15 @@ public class FragmentTwo extends Fragment{
         mChart = (BarChart) mView.findViewById(R.id.chart1);
         mChart.setOnTouchListener(null);
         ChartUtil.getIntance().initBarChart(mChart);
-        ChartUtil.getIntance().setData(mChart, mActivity, 5, ChartUtil.getIntance().getBarMaxRange(mActivity));
+        ChartUtil.getIntance().setData(mChart, mActivity, 5);
     }
-
 
     private void initData() {
         Log.e("##### Date ######", DateTools.getDateYYYYMMDD());
 
         ContentValues values = new ContentValues();
-        values.put("time", DateTools.getDateYYYYMMDD());
+        values.put("time", "20160512");
+        values.put("month", DateTools.getDateYYYYMMDD().substring(0, 6));
         values.put("food", 15);
         values.put("shopping", 45);
         values.put("play", 10);
@@ -77,28 +75,10 @@ public class FragmentTwo extends Fragment{
         Log.e("test ", "count=" + cursor.getCount());
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String table = cursor
-                    .getString(cursor.getColumnIndex("table_name"));
             String name = cursor.getString(cursor.getColumnIndex("time"));
-            Log.e("test", "table_name:" + table);
             Log.e("test ", "time: " + name);
             cursor.moveToNext();
         }
         cursor.close();
-
-        Cursor cursor1 = getActivity().getContentResolver().query(
-                PayContentProvider.CONTENT_URI_SHOURU, null, null, null, null);
-        cursor1.moveToFirst();
-        while (!cursor1.isAfterLast()) {
-            String table = cursor1.getString(cursor1
-                    .getColumnIndex("table_name"));
-            String name = cursor1.getString(cursor1.getColumnIndex("time"));
-            String shouru = cursor1.getString(cursor1.getColumnIndex("shouru"));
-            Log.e("test", "table_name:" + table);
-            Log.e("test ", "time: " + name);
-            Log.e("test ", "shouru: " + shouru);
-            cursor1.moveToNext();
-        }
-        cursor1.close();
     }
 }
